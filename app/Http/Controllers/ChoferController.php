@@ -7,12 +7,11 @@ use App\Models\ChoferCamion;
 use App\Models\LoteCamion;
 use App\Models\Paquete;
 use App\Models\Forma;
-use App\Models\Lote;
+use App\Models\CamionLlevaLote;
 use Illuminate\Http\Request;
 
 class ChoferController extends Controller
 {
-
     public function registrarEntrega(Request $request)
     {
         $chofer = new Chofer();
@@ -32,20 +31,34 @@ class ChoferController extends Controller
         $paquetes = Forma::whereIn('ID_Lote', $lotes->pluck('ID_Lote'))->get();
         return response()->json(['paquetes' => $paquetes], 200);
     }
-    
+
     public function cambiarEstadoPaquete(Request $request)
     {
         $paquete = Paquete::find($request->id);
-        $lote = Forma::where('ID_Paquete', $paquete->ID_Paquete)->first();
-        dd($lote);
+        $lote = Forma::where('ID_Paquete', $paquete->ID)->get();
+        $camionLote = LoteCamion::where('ID_Lote', $lote->pluck('ID_Lote'))->first();
+        $camionLlevaLote = CamionLlevaLote::where('ID_Lote', $lote->pluck('ID_Lote'))->first();
         if ($request->estado == 'Entregado' || $request->estado == 'No entregado') {
-            $paquete->estado = $request->estado;
+            $paquete->Estado = $request->estado;
+            $paquete->save();
+            $paquetes = Paquete::whereIn('ID', Forma::where('ID_Lote', $lote->pluck('ID_Lote'))->pluck('ID_Paquete'))->get();
+            $todosEntregados = $paquetes->every(function ($paquete) {
+                return $paquete->Estado == "Entregado";
+            });
+            if ($todosEntregados) {
+                $camionLote->Estado = 'Entregado';
+                $camionLote->save();
+                $camionLlevaLote->Fecha_Hora_Fin = now();
+            }
         } else {
             return response()->json(['message' => 'Estado inválido'], 400);
         }
-        $lote->estado = $request->estado;
-        $paquete->save();
-        $lote->save();
-        return response()->json(['message' => 'Estado del paquete actualizado con éxito'], 200);
+        $responseArray = [
+            'camionLote' => $camionLote,
+            'paquete' => $paquete,
+            'camionLlevaLote' => $camionLlevaLote
+        ];
+
+        return response()->json($responseArray, 200);
     }
 }
