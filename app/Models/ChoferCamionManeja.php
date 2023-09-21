@@ -25,7 +25,6 @@ class ChoferCamionManeja extends Model
 	protected $table = 'chofer_camion_maneja';
 	public $incrementing = false;
 	public $timestamps = false;
-
 	protected $casts = [
 		'ID_Chofer' => 'int',
 		'ID_Camion' => 'int',
