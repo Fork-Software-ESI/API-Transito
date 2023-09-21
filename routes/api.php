@@ -24,8 +24,8 @@ Route::post('/paquete', [ChoferController::class, 'cambiarEstadoPaquete'])->name
 
 Route::get('/paquete', [ChoferController::class, 'verPaquetes'])->name('chofer.verPaquete');
 
-Route::get('/cliente', [ClienteController::class, 'verPaquete'])->name('cliente.verPaqueteCliente');
-
-Route::post('/chofer', [ChoferController::class, 'plataforma'])->name('chofer.plataforma');
+Route::post('/plataforma', [ChoferController::class, 'plataforma'])->name('chofer.plataforma');
 
 Route::post('/maneja', [ChoferController::class, 'manejaCamion'])->name('chofer.manejaCamion');
+
+Route::get('/cliente', [ClienteController::class, 'verPaquete'])->name('cliente.verPaquete');

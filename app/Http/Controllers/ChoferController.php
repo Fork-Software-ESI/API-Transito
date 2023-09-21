@@ -16,17 +16,6 @@ use Illuminate\Http\Request;
 
 class ChoferController extends Controller
 {
-    /* public function registrarEntrega(Request $request)
-    {
-        $chofer = new Chofer();
-        $chofer->nombre = $request->nombre;
-        $chofer->direccion_entrega = $request->direccion_entrega;
-        $chofer->lote_entregado = true;
-        $chofer->save();
-
-        return response()->json(['message' => 'Entrega registrada con éxito'], 201);
-    } */
-
     public function verPaquetes(Request $request)
     {
         $chofer = Chofer::find($request->id);
