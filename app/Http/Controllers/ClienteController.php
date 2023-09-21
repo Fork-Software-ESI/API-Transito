@@ -22,6 +22,4 @@ class ClienteController extends Controller
         ];
         return response()->json(['paquete' => $responseArray], 200);
     }
-
-    
 }
