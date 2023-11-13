@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $Descripcion
  * @property int $Peso_Kg
  * @property string $Estado
+ * @property string $Destino
  * 
  * @property Cliente $cliente
  * @property Forma $forma
@@ -30,7 +31,7 @@ class Paquete extends Model
 {
 	protected $table = 'paquete';
 	protected $primaryKey = 'ID';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'ID_Cliente' => 'int',
@@ -41,7 +42,8 @@ class Paquete extends Model
 		'ID_Cliente',
 		'Descripcion',
 		'Peso_Kg',
-		'Estado'
+		'Estado',
+		'Destino'
 	];
 
 	public function cliente()

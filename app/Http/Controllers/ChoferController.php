@@ -20,21 +20,21 @@ class ChoferController extends Controller
     {
         $chofer = Chofer::find($request->id);
         $camion = ChoferCamion::where('ID_Chofer', $chofer->ID)->first();
-        $lotes = LoteCamion::where('ID_Camion', $camion->ID_Camion)->get();
-        $paquetes = Forma::whereIn('ID_Lote', $lotes->pluck('ID_Lote'))->get();
+        $lotes = LoteCamion::where('ID_Camion', $camion->ID_Camion)->pluck('ID_Lote');
+        $paquetes = Forma::whereIn('ID_Lote', $lotes)->get();
         return response()->json(['paquetes' => $paquetes], 200);
     }
 
     public function cambiarEstadoPaquete(Request $request)
     {
         $paquete = Paquete::find($request->id);
-        $lote = Forma::where('ID_Paquete', $paquete->ID)->get();
-        $camionLote = LoteCamion::where('ID_Lote', $lote->pluck('ID_Lote'))->first();
-        $camionLlevaLote = CamionLlevaLote::where('ID_Lote', $lote->pluck('ID_Lote'))->first();
+        $lote = Forma::where('ID_Paquete', $paquete->ID)->pluck('ID_Lote');
+        $camionLote = LoteCamion::where('ID_Lote', $lote)->first();
+        $camionLlevaLote = CamionLlevaLote::where('ID_Lote', $lote)->first();
         if ($request->estado == 'Entregado' || $request->estado == 'No entregado') {
             $paquete->Estado = $request->estado;
             $paquete->save();
-            $paquetes = Paquete::whereIn('ID', Forma::where('ID_Lote', $lote->pluck('ID_Lote'))->pluck('ID_Paquete'))->get();
+            $paquetes = Paquete::whereIn('ID', Forma::where('ID_Lote', $lote)->pluck('ID_Paquete'))->get();
             $todosEntregados = $paquetes->every(function ($paquete) {
                 return $paquete->Estado == "Entregado";
             });

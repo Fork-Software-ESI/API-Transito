@@ -27,7 +27,7 @@ class CamionPlataforma extends Model
 {
 	protected $table = 'camion_plataforma';
 	public $incrementing = false;
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'ID_Camion' => 'int',

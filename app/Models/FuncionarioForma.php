@@ -9,47 +9,39 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Forma
+ * Class FuncionarioForma
  * 
- * @property int $ID_Lote
+ * @property int $ID_Funcionario
  * @property int $ID_Paquete
- * @property string $Estado
  * 
- * @property Lote $lote
+ * @property FuncionarioAlmacen $funcionario_almacen
  * @property Paquete $paquete
- * @property GerenteForma $gerente_forma
  *
  * @package App\Models
  */
-class Forma extends Model
+class FuncionarioForma extends Model
 {
-	protected $table = 'forma';
+	protected $table = 'funcionario_forma';
 	protected $primaryKey = 'ID_Paquete';
 	public $incrementing = false;
 	public $timestamps = true;
 
 	protected $casts = [
-		'ID_Lote' => 'int',
+		'ID_Funcionario' => 'int',
 		'ID_Paquete' => 'int'
 	];
 
 	protected $fillable = [
-		'ID_Lote',
-		'Estado'
+		'ID_Funcionario'
 	];
 
-	public function lote()
+	public function funcionario_almacen()
 	{
-		return $this->belongsTo(Lote::class, 'ID_Lote');
+		return $this->belongsTo(FuncionarioAlmacen::class, 'ID_Funcionario');
 	}
 
 	public function paquete()
 	{
 		return $this->belongsTo(Paquete::class, 'ID_Paquete');
-	}
-
-	public function gerente_forma()
-	{
-		return $this->hasOne(GerenteForma::class, 'ID_Paquete');
 	}
 }

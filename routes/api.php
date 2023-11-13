@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChoferController;
 use App\Http\Controllers\ClienteController; 
+use App\Http\Controllers\RutaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,5 @@ Route::post('/plataforma', [ChoferController::class, 'plataforma'])->name('chofe
 Route::post('/maneja', [ChoferController::class, 'manejaCamion'])->name('chofer.manejaCamion');
 
 Route::get('/cliente', [ClienteController::class, 'verPaquete'])->name('cliente.verPaquete');
+
+Route::post('/ruta', [RutaController::class, 'calcularRuta'])->name('chofer.calcularRuta');

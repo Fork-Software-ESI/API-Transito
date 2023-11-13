@@ -10,19 +10,18 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Chofer
+ * Class Cliente
  * 
  * @property int $ID
  * 
  * @property Persona $persona
- * @property Collection|Camion[] $camions
- * @property Collection|ChoferTipoLibretum[] $chofer_tipo_libreta
+ * @property Collection|Paquete[] $paquetes
  *
  * @package App\Models
  */
-class Chofer extends Model
+class Cliente extends Model
 {
-	protected $table = 'chofer';
+	protected $table = 'cliente';
 	protected $primaryKey = 'ID';
 	public $incrementing = false;
 	public $timestamps = true;
@@ -39,14 +38,8 @@ class Chofer extends Model
 		return $this->belongsTo(Persona::class, 'ID');
 	}
 
-	public function camions()
+	public function paquetes()
 	{
-		return $this->belongsToMany(Camion::class, 'chofer_camion', 'ID_Chofer', 'ID_Camion')
-					->withPivot('Fecha_Hora_Inicio');
-	}
-
-	public function chofer_tipo_libreta()
-	{
-		return $this->hasMany(ChoferTipoLibretum::class, 'ID');
+		return $this->hasMany(Paquete::class, 'ID_Cliente');
 	}
 }
