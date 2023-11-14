@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChoferController;
-use App\Http\Controllers\ClienteController; 
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\RutaController;
 
 /*
@@ -21,14 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/paquete', [ChoferController::class, 'cambiarEstadoPaquete'])->name('chofer.cambiarEstado');
+Route::post('/paquete', [ChoferController::class, 'cambiarEstadoPaquete']);
 
-Route::get('/paquete', [ChoferController::class, 'verPaquetes'])->name('chofer.verPaquete');
+Route::get('/paquete', [ChoferController::class, 'verPaquetes']);
 
-Route::post('/plataforma', [ChoferController::class, 'plataforma'])->name('chofer.plataforma');
+Route::post('/plataforma', [ChoferController::class, 'plataforma']);
 
-Route::post('/maneja', [ChoferController::class, 'manejaCamion'])->name('chofer.manejaCamion');
+Route::post('/maneja', [ChoferController::class, 'manejaCamion']);
 
-Route::get('/cliente', [ClienteController::class, 'verPaquete'])->name('cliente.verPaquete');
+Route::get('/cliente', [ClienteController::class, 'verPaquete']);
 
-Route::post('/ruta', [RutaController::class, 'calcularRuta'])->name('chofer.calcularRuta');
+Route::post('/ruta', [RutaController::class, 'calcularRuta']);
+
+Route::post('/prueba', [RutaController::class, 'obtenerDireccionesDePaquetesDeCamion']);
