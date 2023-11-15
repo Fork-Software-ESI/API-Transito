@@ -17,9 +17,6 @@ use App\Http\Controllers\RutaController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::post('/paquete', [ChoferController::class, 'cambiarEstadoPaquete']);
 
