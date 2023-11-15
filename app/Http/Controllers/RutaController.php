@@ -13,38 +13,11 @@ use App\Models\Almacen;
 
 class RutaController extends Controller
 {
-    /*private function generarRuta($direcciones)
-    {
-        $appId = env('HEREMAPS_APP_ID');
-        $appCode = env('HEREMAPS_APP_CODE');
-
-        // Convertir direcciones a coordenadas
-        $coordenadas = [];
-        foreach ($direcciones as $direccion) {
-            $response = $this->obtenerCoordenadas($direccion, $appId, $appCode);
-            $coordenadas[] = $response['Response']['View'][0]['Result'][0]['Location']['DisplayPosition'];
-        }
-
-        // Generar ruta utilizando la matriz de coordenadas
-        $url = "https://router.hereapi.com/v8/routes?apiKey=" . $appId;
-        $client = new Client();
-
-        $response = $client->request('POST', $url, [
-            'json' => [
-                'waypoint' => $coordenadas,
-                'mode' => 'fastest;car',
-            ],
-        ]);
-
-        $data = json_decode($response->getBody(), true);
-        return $data;
-    }*/
-
     private function obtenerCoordenadas($direccion)
     {
-        $apiKey = env('HEREMAPS_APP_CODE');
-        $countryName = "Uruguay";
-        $url = "https://geocode.search.hereapi.com/v1/geocode?q=$direccion&country=$countryName&apiKey=$apiKey";
+        $apiKey = env('MAPS_API_KEY');
+        $pais = "Uruguay";
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?address=$direccion&components=country:$pais&key=$apiKey";
 
         $client = new Client();
         $response = $client->get($url);
@@ -76,6 +49,30 @@ class RutaController extends Controller
             $coordenadas[] = $this->obtenerCoordenadas($direccion);
         }
 
-        return response()->json($coordenadas, 200);
+        $resultsWithUniqueCoordinates = [];
+
+        foreach ($coordenadas as $result) {
+            foreach ($result['results'] as $place) {
+                $geometry = $place['geometry'];
+                $location = $geometry['location'];
+                $latitude = $location['lat'];
+                $longitude = $location['lng'];
+
+                $existingCoordinates = array_filter($resultsWithUniqueCoordinates, function ($coord) use ($latitude, $longitude) {
+                    return $coord['latitude'] == $latitude && $coord['longitude'] == $longitude;
+                });
+
+                if (empty($existingCoordinates)) {
+                    $resultsWithUniqueCoordinates[] = [
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
+                    ];
+                }
+            }
+        }
+
+
+
+        return response()->json($resultsWithUniqueCoordinates, 200);
     }
 }

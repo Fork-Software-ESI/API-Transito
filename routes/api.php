@@ -33,4 +33,3 @@ Route::get('/cliente', [ClienteController::class, 'verPaquete']);
 
 Route::post('/ruta', [RutaController::class, 'calcularRuta']);
 
-Route::post('/prueba', [RutaController::class, 'obtenerDireccionesDePaquetesDeCamion']);
