@@ -27,15 +27,22 @@ class ClienteController extends Controller
     public function buscarPaquete(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'Codigo' => 'required|string|max:6',
+            'codigo' => 'required|string|max:6'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $paquete = Paquete::where('Codigo', $request->Codigo)->first();
+        $validatedData = $validator->validated();
+
+        $paquete = Paquete::where('Codigo', $validatedData['codigo'])->first();
+
+        if (!$paquete) {
+            return response()->json(['error' => 'No existe un paquete con ese código'], 400);
+        }
 
         return response()->json(['paquete' => $paquete], 200);
+
     }
 }
