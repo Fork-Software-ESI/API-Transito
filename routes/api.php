@@ -18,10 +18,10 @@ use App\Http\Controllers\RutaController;
 */
 
 
-Route::post('/paquetes', [ChoferController::class, 'cambiarEstadoPaquete']);
+Route::post('/paquetes', [ChoferController::class, 'marcarEntregado']);
 Route::get('/paquetes', [ChoferController::class, 'verPaquetes']);
 Route::post('/plataforma', [ChoferController::class, 'plataforma']);
-Route::post('/camion', [ChoferController::class, 'manejaCamion']);
+Route::get('/camion', [ChoferController::class, 'manejaCamion']);
 
 Route::get('/paquetes/chofer', [ClienteController::class, 'verPaquete']);
 Route::get('/paquetes/codigo' , [ClienteController::class, 'buscarPaquete']);
