@@ -25,6 +25,7 @@ Route::post('/camion', [ChoferController::class, 'manejaCamion']);
 
 Route::get('/paquetes/chofer', [ClienteController::class, 'verPaquete']);
 Route::get('/paquetes/codigo' , [ClienteController::class, 'buscarPaquete']);
+Route::get('/paquetes/almacen', [ClienteController::class, 'almacenPaquete']);
 
 Route::post('/ruta', [RutaController::class, 'calcularRuta']);
 
