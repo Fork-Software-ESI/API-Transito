@@ -12,6 +12,7 @@ use App\Models\CamionPlataformaSalida;
 use App\Models\CamionPlataforma;
 use App\Models\ChoferCamionManeja;
 use Illuminate\Support\Facades\Validator;
+//comentario porque el commit se buguea al carajo
 
 use Illuminate\Http\Request;
 
